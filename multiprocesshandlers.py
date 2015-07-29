@@ -501,8 +501,6 @@ class RotatingFileHandler(BaseRotatingHandler):
             if os.path.exists(self.baseFilename):
                 shutil.copyfile(self.baseFilename, dfn)
                 self.stream.truncate(0)
-        if not self.delay:
-            self.stream = self._open()
 
     def shouldRollover(self, record):
         """
@@ -733,14 +731,11 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
         if os.path.exists(dfn):
             os.remove(dfn)
         # Issue 18940: A file may not have been created if delay is True.
-        print "ROLLING OVER: Dumping to >> %s" % dfn
         if os.path.exists(self.baseFilename):
             shutil.copyfile(self.baseFilename, dfn)
             self.stream.truncate(0)
         if self.backupCount > 0:
             for s in self.getFilesToDelete():
                 os.remove(s)
-        if not self.delay:
-            self.stream = self._open()
         currentTime = os.stat(dfn)[ST_CTIME]
         self.changeRollover(currentTime)

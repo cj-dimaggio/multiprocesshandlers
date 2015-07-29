@@ -11,7 +11,7 @@ def create_logger():
     log_file = app_name + '.log'
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    fh = multiprocesshandlers.TimedRotatingFileHandler(log_file, when='s', interval=10, backupCount=3)
+    fh = multiprocesshandlers.RotatingFileHandler(log_file, maxBytes=1024 * 50, backupCount=3)
     fh.setLevel(logging.INFO)
     ch = multiprocesshandlers.StreamHandler()
     ch.setLevel(logging.INFO)
